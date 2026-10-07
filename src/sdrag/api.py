@@ -5,9 +5,10 @@ import time
 from collections import deque
 from contextlib import asynccontextmanager
 from functools import lru_cache
+from pathlib import Path
 
 from fastapi import Depends, FastAPI, HTTPException, Request
-from fastapi.responses import JSONResponse
+from fastapi.responses import FileResponse, JSONResponse
 from llama_index.core.llms import LLM
 from pydantic import BaseModel, Field
 
@@ -87,6 +88,11 @@ def papers() -> dict[str, dict]:
     """Paper metadata snapshot (data/papers.jsonl), so the container needs no Postgres."""
     with META_PATH.open(encoding="utf-8") as f:
         return {p["arxiv_id"]: p for p in map(json.loads, f)}
+
+
+@app.get("/", include_in_schema=False)
+def home():
+    return FileResponse(Path(__file__).parent / "static" / "index.html")
 
 
 @app.get("/health")

@@ -78,3 +78,9 @@ def test_papers_endpoint_reads_snapshot(tmp_path, monkeypatch):
         assert client.get("/papers/9999.99999v1").status_code == 404
     finally:
         api.papers.cache_clear()
+
+
+def test_home_page_is_served():
+    r = TestClient(api.app).get("/")
+    assert r.status_code == 200 and "text/html" in r.headers["content-type"]
+    assert 'fetch("/query"' in r.text
