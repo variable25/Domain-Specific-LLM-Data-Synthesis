@@ -1,0 +1,11 @@
+# torch with CUDA: pip install torch --index-url https://download.pytorch.org/whl/cu124
+sentence-transformers
+chromadb
+pymupdf
+arxiv
+psycopg[binary]
+sqlalchemy
+python-dotenv
+tqdm
+llama-index-core
+pytest
