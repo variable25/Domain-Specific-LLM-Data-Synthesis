@@ -13,9 +13,8 @@ from sdrag.config import CHROMA_DIR, EMBED_MODEL
 def model() -> SentenceTransformer:
     device = "cuda" if torch.cuda.is_available() else "cpu"
     m = SentenceTransformer(EMBED_MODEL, device=device)
-    if device == "cuda":
-        m.half()
-    return m
+    # fp16 on GPU; fp32 on CPU (the container ships fp16 weights to stay small)
+    return m.half() if device == "cuda" else m.float()
 
 
 def collection_name(chunk_size: int, overlap: int, subset: int = 0) -> str:

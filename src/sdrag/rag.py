@@ -10,8 +10,17 @@ from llama_index.core.postprocessor.types import BaseNodePostprocessor
 from llama_index.core.query_engine import RetrieverQueryEngine
 from llama_index.vector_stores.chroma import ChromaVectorStore
 
-from sdrag.config import (CHROMA_DIR, COLLECTION, GROQ_API_KEY, GROQ_MODEL, LLM_PROVIDER,
-                          MAX_ANSWER_TOKENS, OPENAI_API_KEY, OPENAI_MODEL, TOP_K)
+from sdrag.config import (
+    CHROMA_DIR,
+    COLLECTION,
+    GROQ_API_KEY,
+    GROQ_MODEL,
+    LLM_PROVIDER,
+    MAX_ANSWER_TOKENS,
+    OPENAI_API_KEY,
+    OPENAI_MODEL,
+    TOP_K,
+)
 
 # BGE v1.5 expects this prefix on queries (not on passages) for retrieval
 BGE_QUERY_PREFIX = "Represent this sentence for searching relevant passages: "

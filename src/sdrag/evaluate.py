@@ -58,9 +58,9 @@ def answers(engine, rows: list[dict], cache: Path) -> list[dict]:
 
 
 def _ragas_classes():
+    from langchain_core.outputs import Generation, LLMResult
     from ragas.embeddings.base import BaseRagasEmbeddings
     from ragas.llms.base import BaseRagasLLM
-    from langchain_core.outputs import Generation, LLMResult
 
     @dataclass
     class GuardedLLM(BaseRagasLLM):

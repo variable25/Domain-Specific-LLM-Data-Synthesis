@@ -1,0 +1,6 @@
+# whitelist: only what the API image needs
+*
+!requirements-api.txt
+!src/sdrag/**
+!build/data/**
+**/__pycache__
