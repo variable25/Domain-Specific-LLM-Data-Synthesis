@@ -11,7 +11,7 @@ TEXT_DIR = DATA_DIR / "text"
 META_PATH = DATA_DIR / "papers.jsonl"
 CHROMA_DIR = DATA_DIR / "chroma"
 
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg://sdrag:sdrag@localhost:5432/sdrag")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql+psycopg://sdrag:sdrag@localhost:5433/sdrag")
 EMBED_MODEL = os.getenv("EMBED_MODEL", "BAAI/bge-base-en-v1.5")
 
 # arXiv search: self-driving / autonomous driving papers
