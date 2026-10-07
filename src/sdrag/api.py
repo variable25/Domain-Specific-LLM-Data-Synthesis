@@ -1,11 +1,13 @@
 """FastAPI service: POST /query -> cited answer.  Run: uvicorn sdrag.api:app"""
 from functools import lru_cache
 
-from fastapi import Depends, FastAPI
+from fastapi import Depends, FastAPI, Request
+from fastapi.responses import JSONResponse
 from llama_index.core.llms import LLM
 from pydantic import BaseModel, Field
 
 from sdrag import rag
+from sdrag.budget import BudgetExceeded
 from sdrag.config import TOP_K
 
 
@@ -29,6 +31,11 @@ class QueryResponse(BaseModel):
 
 
 app = FastAPI(title="sdrag", description="Cited QA over arXiv self-driving papers")
+
+
+@app.exception_handler(BudgetExceeded)
+def budget_exceeded(request: Request, exc: BudgetExceeded):
+    return JSONResponse(status_code=402, content={"detail": str(exc)})
 
 
 def get_index():

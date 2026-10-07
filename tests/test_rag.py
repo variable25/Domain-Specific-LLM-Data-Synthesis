@@ -74,3 +74,29 @@ def test_live_groq():
     out = rag.answer(rag.build_engine(rag.default_index(), rag.make_llm()),
                      "Which sensors are fused for 3D object detection in autonomous driving?")
     assert out["sources"] and out["citations"]
+
+
+def test_budget_guard_blocks_after_limit(tmp_path, monkeypatch):
+    from sdrag import budget
+    monkeypatch.setattr(budget, "SPEND_PATH", tmp_path / "spend.json")
+    monkeypatch.setattr(budget, "OPENAI_BUDGET_USD", 0.001)
+    budget.check()  # nothing spent yet
+    assert budget.record(2000, 200) == pytest.approx((2000 * 0.25 + 200 * 2.0) / 1e6)
+    budget.record(4000, 0)  # crosses $0.001
+    with pytest.raises(budget.BudgetExceeded):
+        budget.check()
+
+
+def test_query_endpoint_returns_402_when_budget_spent(index):
+    from sdrag.budget import BudgetExceeded
+
+    class BrokeLLM(FakeLLM):
+        def complete(self, prompt, formatted=False, **kwargs):
+            raise BudgetExceeded("budget used up")
+
+    api.app.dependency_overrides = {api.get_index: lambda: index, api.get_llm: lambda: BrokeLLM()}
+    try:
+        r = TestClient(api.app).post("/query", json={"question": "Does lidar-camera fusion help?"})
+        assert r.status_code == 402 and "budget" in r.json()["detail"]
+    finally:
+        api.app.dependency_overrides = {}

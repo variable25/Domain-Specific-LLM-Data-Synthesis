@@ -63,13 +63,14 @@ def load_index(collection: chromadb.Collection | None = None,
 def make_llm(provider: str = LLM_PROVIDER) -> LLM:
     """Always built explicitly, so LlamaIndex never falls back to its default OpenAI settings."""
     if provider == "openai":
-        from llama_index.llms.openai import OpenAI
         from llama_index.llms.openai.utils import O1_MODELS
+
+        from sdrag.budget import BudgetedOpenAI
         if not OPENAI_API_KEY:
             raise RuntimeError("OPENAI_API_KEY is not set (see .env.example)")
         # reasoning models (gpt-5*) count thinking tokens against the cap, so keep effort minimal
         extra = {"reasoning_effort": "minimal"} if OPENAI_MODEL in O1_MODELS else {"temperature": 0.0}
-        return OpenAI(model=OPENAI_MODEL, api_key=OPENAI_API_KEY, max_tokens=MAX_ANSWER_TOKENS, **extra)
+        return BudgetedOpenAI(model=OPENAI_MODEL, api_key=OPENAI_API_KEY, max_tokens=MAX_ANSWER_TOKENS, **extra)
     if provider == "groq":
         from llama_index.llms.groq import Groq
         if not GROQ_API_KEY:
