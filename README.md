@@ -6,7 +6,7 @@ Cited question answering over ~500 open-access arXiv papers on self-driving cars
 
 Stages: ETL -> RAG API -> RAGAS evaluation + chunking ablation -> CI + Cloud Run.
 
-**Live API:** LIVE_URL (`GET /health`, `GET /papers/{arxiv_id}`, `POST /query`, docs at `/docs`)
+**Live API:** https://sdrag-api-6b72ji357q-ew.a.run.app (`GET /health`, `GET /papers/{arxiv_id}`, `POST /query`, docs at `/docs`)
 
 ## Setup
 
