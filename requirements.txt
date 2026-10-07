@@ -9,4 +9,9 @@ sqlalchemy
 python-dotenv
 tqdm
 llama-index-core
+llama-index-vector-stores-chroma
+llama-index-llms-openai
+llama-index-llms-groq
+fastapi
+uvicorn
 pytest
