@@ -3,6 +3,7 @@ sentence-transformers
 chromadb
 pymupdf
 arxiv
+requests
 psycopg[binary]
 sqlalchemy
 python-dotenv
