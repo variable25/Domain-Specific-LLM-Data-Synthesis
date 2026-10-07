@@ -23,7 +23,7 @@ def main():
     counts = Counter(c["metadata"]["arxiv_id"] for c in chunks)
     for p in papers:
         p["n_chunks"] = counts[p["arxiv_id"]]
-    name = embed.collection_name(args.chunk_size, args.overlap)
+    name = embed.collection_name(args.chunk_size, args.overlap, args.subset)
     n = embed.index_chunks(chunks, name)
     print(f"{len(papers)} papers -> {n} chunks in Chroma collection '{name}'")
     if not args.skip_db:
