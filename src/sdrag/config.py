@@ -35,6 +35,10 @@ OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-5-mini")
 OPENAI_BUDGET_USD = float(os.getenv("OPENAI_BUDGET_USD", "2.0"))
 OPENAI_PRICE_IN = float(os.getenv("OPENAI_PRICE_IN", "0.25"))
 OPENAI_PRICE_OUT = float(os.getenv("OPENAI_PRICE_OUT", "2.0"))
-SPEND_PATH = DATA_DIR / "openai_spend.json"
+# local file, or gs://bucket/openai_spend.json so the count survives Cloud Run restarts
+SPEND_PATH = os.getenv("SPEND_PATH", str(DATA_DIR / "openai_spend.json"))
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-120b")
+# serving: load index + model at startup (container) and cap /query calls per minute (0 = off)
+WARMUP = os.getenv("WARMUP", "") == "1"
+RATE_LIMIT_PER_MIN = int(os.getenv("RATE_LIMIT_PER_MIN", "0"))
