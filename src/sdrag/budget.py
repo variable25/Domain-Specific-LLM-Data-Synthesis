@@ -56,3 +56,15 @@ class BudgetedOpenAI(OpenAI):
         resp = super().complete(prompt, formatted=formatted, **kwargs)
         record(*_usage(resp.raw))
         return resp
+
+    async def achat(self, messages, **kwargs):
+        check()
+        resp = await super().achat(messages, **kwargs)
+        record(*_usage(resp.raw))
+        return resp
+
+    async def acomplete(self, prompt, formatted=False, **kwargs):
+        check()
+        resp = await super().acomplete(prompt, formatted=formatted, **kwargs)
+        record(*_usage(resp.raw))
+        return resp

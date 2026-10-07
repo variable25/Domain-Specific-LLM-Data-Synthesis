@@ -18,8 +18,9 @@ def model() -> SentenceTransformer:
     return m
 
 
-def collection_name(chunk_size: int, overlap: int) -> str:
-    return f"papers_c{chunk_size}_o{overlap}"
+def collection_name(chunk_size: int, overlap: int, subset: int = 0) -> str:
+    # subset indexes get their own suffix so an ablation never overwrites the full index
+    return f"papers_c{chunk_size}_o{overlap}" + (f"_s{subset}" if subset else "")
 
 
 def index_chunks(chunks: list[dict], name: str, batch: int = 512) -> int:
