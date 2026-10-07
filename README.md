@@ -91,7 +91,8 @@ CI ([.github/workflows/ci.yml](.github/workflows/ci.yml)) runs on pushes to `mai
 ```bash
 python -m sdrag.export --out build/data          # only papers_c384_o64 (no *_s100) + papers.jsonl -> 266 MB
 docker build -t sdrag-api:local .                # ~2.2 GB unpacked: CPU torch 2.14, fp16 BGE 210 MB, index 266 MB
-docker run --rm -p 8080:8080 --env-file .env -e DATA_DIR=/app/data -e EMBED_MODEL=/opt/models/bge-base-en-v1.5 \n  -v "$PWD/data:/spend" -e SPEND_PATH=/spend/openai_spend.json sdrag-api:local
+docker run --rm -p 8080:8080 --env-file .env -e DATA_DIR=/app/data -e EMBED_MODEL=/opt/models/bge-base-en-v1.5 \
+  -v "$PWD/data:/spend" -e SPEND_PATH=/spend/openai_spend.json sdrag-api:local
 curl localhost:8080/health
 ```
 
